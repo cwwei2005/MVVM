@@ -37,7 +37,6 @@ class BaseBindingAdapter<T>(private val layoutId:Int, private val BRid:Int): Rec
 //        } else if (viewType == ITEM_TYPE.FOOTER.ordinal){
 //            return MyViewHolder(footerView!!)
 //        }
-        Log.e("tag","onCreate")
         val binding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), layoutId, parent, false)
         val viewHolder = MyViewHolder(binding.root)
         viewHolder.setBinding(binding)
