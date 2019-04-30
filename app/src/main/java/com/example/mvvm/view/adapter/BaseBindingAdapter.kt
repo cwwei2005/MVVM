@@ -1,13 +1,11 @@
-package com.example.mvvm
+package com.example.mvvm.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mvvm.db.User
 
 class BaseBindingAdapter<T>(private val layoutId:Int, private val BRid:Int): RecyclerView.Adapter<BaseBindingAdapter<T>.MyViewHolder>() {
 

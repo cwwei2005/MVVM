@@ -1,9 +1,9 @@
-package com.example.mvvm
+package com.example.mvvm.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.mvvm.db.User
-import com.example.mvvm.net.NetState
+import com.example.mvvm.model.MyRepository
+import com.example.mvvm.model.net.NetState
 
 class ViewModel1 : ViewModel() {
     fun getEntitys(t:Class<out Any>):LiveData<out List<Any>>? {

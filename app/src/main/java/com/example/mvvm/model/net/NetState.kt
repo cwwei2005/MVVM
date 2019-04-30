@@ -1,3 +1,3 @@
-package com.example.mvvm.net
+package com.example.mvvm.model.net
 
 enum class NetState { LOADING, SUCCESS, FAILED }

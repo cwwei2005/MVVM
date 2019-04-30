@@ -1,23 +1,20 @@
-package com.example.mvvm
+package com.example.mvvm.view.activity
 
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mvvm.BR
+import com.example.mvvm.view.adapter.BaseBindingAdapter
+import com.example.mvvm.R
+import com.example.mvvm.viewmodel.ViewModel1
 import com.example.mvvm.databinding.ActivityMainBinding
-import com.example.mvvm.db.Article
-import com.example.mvvm.db.MyDatabase
-import com.example.mvvm.db.Theater
-import com.example.mvvm.db.User
-import com.example.mvvm.net.NetState
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.jar.Manifest
+import com.example.mvvm.model.db.MyDatabase
+import com.example.mvvm.model.db.Theater
+import com.example.mvvm.model.net.NetState
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +42,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        adapter = BaseBindingAdapter<Theater>(R.layout.recyclerview_theater_item, BR.theater)  //不同类需要修改
+        adapter = BaseBindingAdapter<Theater>(
+            R.layout.recyclerview_theater_item,
+            BR.theater
+        )  //不同类需要修改
         binding!!.recyclerView.layoutManager = LinearLayoutManager(this)
         binding!!.recyclerView.adapter = adapter
     }

@@ -1,4 +1,4 @@
-package com.example.mvvm.net
+package com.example.mvvm.model.net
 
 import android.util.Log
 import okhttp3.Interceptor

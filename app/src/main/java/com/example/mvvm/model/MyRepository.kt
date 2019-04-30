@@ -1,27 +1,21 @@
-package com.example.mvvm
+package com.example.mvvm.model
 
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.mvvm.db.Article
-import com.example.mvvm.db.MyDatabase
-import com.example.mvvm.db.Theater
-import com.example.mvvm.db.User
-import com.example.mvvm.net.MyRetrofit
-import com.example.mvvm.net.NetState
-import io.reactivex.Flowable
+import com.example.mvvm.model.db.MyDatabase
+import com.example.mvvm.model.db.Theater
+import com.example.mvvm.model.net.MyRetrofit
+import com.example.mvvm.model.net.NetState
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.function.Consumer
 
 class MyRepository{
 
     companion object {
         @Volatile private var intence: MyRepository? = null
-        fun getInstance(): MyRepository{
+        fun getInstance(): MyRepository {
             if (intence == null){
                 synchronized(MyRepository::class.java){
                     if (intence == null){
@@ -120,8 +114,6 @@ class MyRepository{
 
     private fun getDBData(t : Class<out Any>): LiveData<out List<Any>>?{
         return when(t.newInstance()){  //注意：传递进来的类需要有构造函数（如果是data class 默认是没有构造函数，需要自己添加）
-            is User -> return MyDatabase.getInstance().userDao().getUsers()  //不需要在线程读
-            is Article -> return MyDatabase.getInstance().articleDao().getAll()  //不需要在线程读
             is Theater -> return MyDatabase.getInstance().theaterDao().getAll()  //不需要在线程读
             else -> null
         }

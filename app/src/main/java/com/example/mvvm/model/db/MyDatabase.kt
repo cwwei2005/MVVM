@@ -1,4 +1,4 @@
-package com.example.mvvm.db
+package com.example.mvvm.model.db
 
 import androidx.room.Database
 import androidx.room.Room
@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.example.mvvm.App
 
 
-@Database(entities = [User::class, Article::class, Theater::class], version = 1, exportSchema = false)
+@Database(entities = [Theater::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase(){
 
     companion object {
@@ -24,7 +24,5 @@ abstract class MyDatabase : RoomDatabase(){
         }
     }
 
-    abstract fun userDao(): UserDao
-    abstract fun articleDao(): ArticleDao
     abstract fun theaterDao(): TheaterDao
 }

@@ -1,4 +1,4 @@
-package com.example.mvvm.db
+package com.example.mvvm.model.db
 
 import androidx.room.*
 import com.google.gson.Gson

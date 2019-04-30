@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.mvvm;
+package com.example.mvvm.view.adapter;
 
 import android.view.View;
 import androidx.databinding.BindingAdapter;
