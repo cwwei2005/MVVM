@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="vm" type="com.example.mvvm.viewmodel.ViewModel1"/>
+        <variable name="vm" type="com.example.mvvm.viewmodel.MyViewModel"/>
         <variable name="isLoading" type="boolean" />
     </data>
 

@@ -16,8 +16,13 @@
 
 package com.example.mvvm.view.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
+import com.bumptech.glide.Glide;
 
 /**
  * databindig中实现visibleGone
@@ -26,5 +31,14 @@ public class BindingAdapters {
     @BindingAdapter("visibleGone")
     public static void showHide(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @BindingAdapter({"app:imageUrl", "app:placeHolder", "app:error"})
+    public static void setImage(ImageView imageView, String url, Drawable holderDrawable, Drawable errorDrawable) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .placeholder(holderDrawable)
+                .error(errorDrawable)
+                .into(imageView);
     }
 }

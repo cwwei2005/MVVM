@@ -1,5 +1,6 @@
 package com.example.mvvm.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvm.BR
 import com.example.mvvm.view.adapter.BaseBindingAdapter
 import com.example.mvvm.R
-import com.example.mvvm.viewmodel.ViewModel1
+import com.example.mvvm.viewmodel.MyViewModel
 import com.example.mvvm.databinding.ActivityMainBinding
 import com.example.mvvm.model.db.MyDatabase
 import com.example.mvvm.model.db.Theater
@@ -20,7 +21,7 @@ import com.example.mvvm.model.net.NetState
 class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
-    private var vm: ViewModel1? = null
+    private var vm: MyViewModel? = null
     private var adapter: BaseBindingAdapter<Top250>? = null  //不同类需要修改
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBindingViewModel(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        vm = ViewModelProviders.of(this).get(ViewModel1::class.java)
+        vm = ViewModelProviders.of(this).get(MyViewModel::class.java)
         binding!!.vm = vm
     }
 
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButton() {
         binding!!.button1.setOnClickListener {
-//            Thread(Runnable { MyDatabase.getInstance().userDao().insert(User(null, "cww")) }).start()
+            startActivity(Intent(this, Main2Activity::class.java))
         }
         binding!!.button2.setOnClickListener {
             Thread(Runnable {
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     private fun initData(){
         val observer = Observer<List<Any>> { t ->
             val list = t as List<Top250>  //不同类需要修改
-            adapter?.refresh(list)
+            adapter?.refresh(BaseBindingAdapter.REFRESH_TYPE.REFRESH, list)
             Log.e("tag","data size: ${list.size}")
         }
 

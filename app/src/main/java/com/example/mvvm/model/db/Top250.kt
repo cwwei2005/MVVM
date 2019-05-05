@@ -1,17 +1,14 @@
 package com.example.mvvm.model.db
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@Entity(tableName = "top250")/*, indices = [Index(value = ["title"], unique = true)]*/
+@Entity(tableName = "top250", indices = [Index(value = ["title"], unique = true)])
 @TypeConverters(Top250.SubjectsBeanConverters::class)
 class Top250 {
     @PrimaryKey(autoGenerate = true)
-    var id:Int = 0;
+    var id:Int = 0
     var count: Int = 0
     var start: Int = 0
     var total: Int = 0

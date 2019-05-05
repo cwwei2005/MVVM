@@ -37,6 +37,13 @@ class MyRepository{
     fun getEntitys(t: Class<out Any>): LiveData<out List<Any>>? = getNetData(t)
 
     /**
+     * 1、从网络获取实体对象，Any类型
+     * 2、获取成功则写入数据库
+     * 3、网络获取无论成功或失败都读取数据库并通知activity
+     */
+    fun getEntitysInPage(t: Class<out Any>, city:String, page:Int, num:Int): LiveData<out List<Any>>? = getNetDataInPage(t, city, page, num)
+
+    /**
      * 网络请求时，更新对应的网络状态
      */
     private val netState = MutableLiveData<NetState>()
@@ -54,8 +61,8 @@ class MyRepository{
         }?.subscribeOn(Schedulers.io())
             ?.doOnNext { any ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
                 when(t.newInstance()){
-                    is Theater -> MyDatabase.getInstance().theaterDao().replaceInsert(any as Theater)
-                    is Top250 -> MyDatabase.getInstance().top250Dao().replaceInsert(any as Top250)
+                    is Theater -> MyDatabase.getInstance().theaterDao().insert(any as Theater)
+                    is Top250 -> MyDatabase.getInstance().top250Dao().insert(any as Top250)
                     else -> null
                 }
             }
@@ -75,6 +82,40 @@ class MyRepository{
 
         when(t.newInstance()){
             is Theater -> MyRetrofit.getInstance().httpApi.getTheaters()
+            is Top250 -> MyRetrofit.getInstance().httpApi.getTop250()
+            else -> null
+        }?.subscribeOn(Schedulers.io())
+//            ?.observeOn(Schedulers.io())
+            ?.doOnNext { any ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
+                when(t.newInstance()){
+                    is Theater -> MyDatabase.getInstance().theaterDao().insert(any as Theater)
+                    is Top250 -> MyDatabase.getInstance().top250Dao().insert(any as Top250)
+                    else -> null
+                }
+                dbData = getDBData(t)
+            }
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                notificationUIThread(dbData, data)
+                netState.postValue(NetState.SUCCESS)
+            }, { throwable->  //网络异常的处理。下面的代码：io线程读出数据，切换到主线程通知更新
+                Observable.just(1)
+                    .subscribeOn(Schedulers.io())
+                    .doOnNext{ dbData = getDBData(t) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { notificationUIThread(dbData, data) }
+                netState.postValue(NetState.FAILED)
+            })
+
+        return data
+    }
+
+    private fun getNetDataInPage(t : Class<out Any>, city:String, page:Int, num:Int): LiveData<out List<Any>>?{
+        val data = MediatorLiveData<List<Any>>()
+        var dbData: LiveData<out List<Any>>? = null
+
+        when(t.newInstance()){
+            is Theater -> MyRetrofit.getInstance().httpApi.getTheatersInPage(city, page, num)
             is Top250 -> MyRetrofit.getInstance().httpApi.getTop250()
             else -> null
         }?.subscribeOn(Schedulers.io())

@@ -4,7 +4,7 @@ import androidx.room.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@Entity(tableName = "theater"/*, indices = [Index(value = ["title"], unique = true)]*/)
+@Entity(tableName = "theater", indices = [Index(value = ["title"], unique = true)])
 @TypeConverters(Theater.SubjectsBeanConverters::class)
 class Theater {
     @PrimaryKey(autoGenerate = true)

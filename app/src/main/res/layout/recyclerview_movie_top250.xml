@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable name="movie2" type="com.example.mvvm.model.db.Top250"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <!--<TextView android:layout_width="match_parent"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:id="@+id/tvid"-->
+                  <!--android:padding="10dp"-->
+                  <!--android:text="@{String.valueOf(user.id)}"/>-->
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/tvName"
+                  android:padding="10dp"
+                  android:text="@{movie2.title}"/>
+
+    </LinearLayout>
+</layout>
