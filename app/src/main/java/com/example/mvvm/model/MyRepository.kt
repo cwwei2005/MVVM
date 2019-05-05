@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvm.model.db.MyDatabase
 import com.example.mvvm.model.db.Theater
+import com.example.mvvm.model.db.Top250
 import com.example.mvvm.model.net.MyRetrofit
 import com.example.mvvm.model.net.NetState
 import io.reactivex.Observable
@@ -48,11 +49,13 @@ class MyRepository{
     fun refresh(t:Class<out Any>){
         when(t.newInstance()){
             is Theater -> MyRetrofit.getInstance().httpApi.getTheaters()
+            is Top250 -> MyRetrofit.getInstance().httpApi.getTop250()
             else -> null
         }?.subscribeOn(Schedulers.io())
-            ?.doOnNext { theater ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
+            ?.doOnNext { any ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
                 when(t.newInstance()){
-                    is Theater -> MyDatabase.getInstance().theaterDao().replaceInsert(theater)
+                    is Theater -> MyDatabase.getInstance().theaterDao().replaceInsert(any as Theater)
+                    is Top250 -> MyDatabase.getInstance().top250Dao().replaceInsert(any as Top250)
                     else -> null
                 }
             }
@@ -72,12 +75,14 @@ class MyRepository{
 
         when(t.newInstance()){
             is Theater -> MyRetrofit.getInstance().httpApi.getTheaters()
+            is Top250 -> MyRetrofit.getInstance().httpApi.getTop250()
             else -> null
         }?.subscribeOn(Schedulers.io())
 //            ?.observeOn(Schedulers.io())
-            ?.doOnNext { theater ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
+            ?.doOnNext { any ->  //获得数据，先写入数据库(io线程)，请求成功才执行doOnNext
                 when(t.newInstance()){
-                    is Theater -> MyDatabase.getInstance().theaterDao().replaceInsert(theater)
+                    is Theater -> MyDatabase.getInstance().theaterDao().replaceInsert(any as Theater)
+                    is Top250 -> MyDatabase.getInstance().top250Dao().replaceInsert(any as Top250)
                     else -> null
                 }
                 dbData = getDBData(t)
@@ -115,6 +120,7 @@ class MyRepository{
     private fun getDBData(t : Class<out Any>): LiveData<out List<Any>>?{
         return when(t.newInstance()){  //注意：传递进来的类需要有构造函数（如果是data class 默认是没有构造函数，需要自己添加）
             is Theater -> return MyDatabase.getInstance().theaterDao().getAll()  //不需要在线程读
+            is Top250 -> return MyDatabase.getInstance().top250Dao().getAll()  //不需要在线程读
             else -> null
         }
     }

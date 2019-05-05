@@ -14,13 +14,14 @@ import com.example.mvvm.viewmodel.ViewModel1
 import com.example.mvvm.databinding.ActivityMainBinding
 import com.example.mvvm.model.db.MyDatabase
 import com.example.mvvm.model.db.Theater
+import com.example.mvvm.model.db.Top250
 import com.example.mvvm.model.net.NetState
 
 class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
     private var vm: ViewModel1? = null
-    private var adapter: BaseBindingAdapter<Theater>? = null  //不同类需要修改
+    private var adapter: BaseBindingAdapter<Top250>? = null  //不同类需要修改
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        adapter = BaseBindingAdapter<Theater>(
+        adapter = BaseBindingAdapter<Top250>(
             R.layout.recyclerview_theater_item,
             BR.theater
         )  //不同类需要修改
@@ -77,17 +78,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun initData(){
         val observer = Observer<List<Any>> { t ->
-            val list = t as List<Theater>  //不同类需要修改
+            val list = t as List<Top250>  //不同类需要修改
             adapter?.refresh(list)
             Log.e("tag","data size: ${list.size}")
         }
 
         val observerNetStat = Observer<NetState> { stat ->
             binding!!.isLoading = false
-//            Log.e("tag","netState: $stat")
+            Log.e("tag","netState: $stat")
         }
 
-        vm?.getEntitys(Theater::class.java)?.observe(this, observer)  /**只要调用过MyDatabase.getInstance().theaterDao().getAll()，以后每次操作这个表observer都能观察到变化**/
+        vm?.getEntitys(Top250::class.java)?.observe(this, observer)  /**只要调用过MyDatabase.getInstance().theaterDao().getAll()，以后每次操作这个表observer都能观察到变化**/
         vm?.getNetState()?.observe(this, observerNetStat)
         binding!!.isLoading = true
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <variable name="theater" type="com.example.mvvm.model.db.Theater"/>
+        <variable name="theater" type="com.example.mvvm.model.db.Top250"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

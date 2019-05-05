@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.example.mvvm.App
 
 
-@Database(entities = [Theater::class], version = 1, exportSchema = false)
+@Database(entities = [Theater::class, Top250::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase(){
 
     companion object {
@@ -25,4 +25,5 @@ abstract class MyDatabase : RoomDatabase(){
     }
 
     abstract fun theaterDao(): TheaterDao
+    abstract fun top250Dao(): Top250Dao
 }
